@@ -1,0 +1,14 @@
+.game-board{
+  width: 700px;
+  height: 700px;
+  left: 50%;
+  top: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  background-color: rgb(240, 240, 240);
+  border: 5px solid rgb(210, 210, 210);
+}
