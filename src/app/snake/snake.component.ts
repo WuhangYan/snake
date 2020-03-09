@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { snakeBody, snakeBodyStyles } from '../../model/snake-body.model';
 
 @Component({
@@ -7,9 +7,10 @@ import { snakeBody, snakeBodyStyles } from '../../model/snake-body.model';
   styleUrls: ['./snake.component.css']
 })
 export class SnakeComponent implements OnInit {
+  @Input() public direction: string;
+
   public body: snakeBody[] = [];
   public styles: snakeBodyStyles[] = [];
-  public direction: string;
   public height: number;
   public width: number;
   public timer: any;
@@ -17,7 +18,6 @@ export class SnakeComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.direction = 'right';
     this.height = 20;
     this.width = 20;
     this.body = [
@@ -35,7 +35,7 @@ export class SnakeComponent implements OnInit {
       }
     ];
     this.generateSnake();
-    this.timer = window.setInterval(() => { this.move() }, 800);
+    this.timer = window.setInterval(() => { this.move() }, 500);
   }
 
   public generateSnake() {
@@ -73,13 +73,14 @@ export class SnakeComponent implements OnInit {
         break;
       case 'left': this.body[0].x--;
         break;
-      case 'up': this.body[0].y++;
+      case 'up': this.body[0].y--;
         break;
-      case 'down': this.body[0].y--;
+      case 'down': this.body[0].y++;
         break;
       default:
         break;
     }
+    this.generateSnake();
     this.checkLoose();
 
   }
@@ -87,9 +88,6 @@ export class SnakeComponent implements OnInit {
   public checkLoose() {
     if (this.body[0].x === 0 || this.body[0].x === 35 || this.body[0].y === 0 || this.body[0].y === 35) {
       clearInterval(this.timer);
-    }
-    else {
-      this.generateSnake();
     }
   }
 
