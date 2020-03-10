@@ -97,6 +97,13 @@ export class SnakeComponent implements OnInit {
   public checkLoose() {
     if (this.body[0].x === 0 || this.body[0].x === 34 || this.body[0].y === 0 || this.body[0].y === 34) {
       clearInterval(this.timer);
+      return;
+    }
+    for (let i = 1; i < this.body.length; i++) {
+      if (this.body[i].x === this.body[0].x && this.body[i].y === this.body[0].y) {
+        clearInterval(this.timer);
+        return;
+      }
     }
   }
 
