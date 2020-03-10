@@ -1,4 +1,5 @@
 <div class="game-board">
-  <app-snake [direction]="direction"></app-snake>
+  <app-snake [direction]="direction" [foodBody]="foodBody" (snakeBodyEmitter)="generateFood($body)">
+  </app-snake>
   <div class="food" [ngStyle]="foodStyle"></div>
 </div>

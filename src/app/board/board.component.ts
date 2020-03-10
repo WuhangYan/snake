@@ -11,6 +11,7 @@ export class BoardComponent implements OnInit {
   public direction: string;
   public foodBody: body;
   public foodStyle: bodyStyle;
+  public snakeBody: body[];
 
   constructor(
     private eventManager: EventManager
@@ -18,6 +19,20 @@ export class BoardComponent implements OnInit {
 
   ngOnInit() {
     this.direction = 'right';
+    this.snakeBody = [
+      {
+        x: 3,
+        y: 1
+      },
+      {
+        x: 2,
+        y: 1
+      },
+      {
+        x: 1,
+        y: 1
+      }
+    ];
     this.eventManager.addGlobalEventListener('window', 'keydown', (e: KeyboardEvent) => {
       switch (e.code) {
         case 'ArrowLeft':
@@ -42,10 +57,22 @@ export class BoardComponent implements OnInit {
           break;
       }
     });
-    this.generateFood();
+    this.generateFood(this.snakeBody);
   }
 
-  public generateFood() {
+  public generateFood(snakeBody: body[]) {
+    while (true) {
+      let dup_axis: boolean = false;
+      let x: number = Math.ceil(Math.random() * 32) + 1;
+      let y: number = Math.ceil(Math.random() * 32) + 1;
+      for (let body of this.snakeBody) {
+        if (body.x === x && body.y === y) {
+          dup_axis = true;
+          break;
+        }
+      }
+      if (!dup_axis) break;
+    }
     this.foodBody = {
       x: Math.ceil(Math.random() * 32) + 1,
       y: Math.ceil(Math.random() * 32) + 1

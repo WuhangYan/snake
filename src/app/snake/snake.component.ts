@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { body, bodyStyle } from '../../model/snake-body.model';
 
 @Component({
@@ -8,6 +8,8 @@ import { body, bodyStyle } from '../../model/snake-body.model';
 })
 export class SnakeComponent implements OnInit {
   @Input() public direction: string;
+  @Input() public foodBody: body;
+  @Output() public snakeBodyEmitter = new EventEmitter<body[]>();
 
   public body: body[] = [];
   public styles: bodyStyle[] = [];
@@ -82,6 +84,13 @@ export class SnakeComponent implements OnInit {
     }
     this.generateSnake();
     this.checkLoose();
+    if (this.body[0].x === this.foodBody.x && this.body[0].y === this.foodBody.y) {
+      this.body.push({
+        x: null,
+        y: null
+      });
+      this.snakeBodyEmitter.emit(this.body);
+    }
 
   }
 
