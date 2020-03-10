@@ -1,9 +1,9 @@
-export interface snakeBody {
+export interface body {
   x: number;
   y: number;
 }
 
-export interface snakeBodyStyles {
+export interface bodyStyle {
   backgroundColor: string;
   top: string;
   left: string;

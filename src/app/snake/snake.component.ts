@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { snakeBody, snakeBodyStyles } from '../../model/snake-body.model';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { body, bodyStyle } from '../../model/snake-body.model';
 
 @Component({
   selector: 'app-snake',
@@ -8,12 +8,14 @@ import { snakeBody, snakeBodyStyles } from '../../model/snake-body.model';
 })
 export class SnakeComponent implements OnInit {
   @Input() public direction: string;
+  @Input() public foodBody: body;
+  @Output() public snakeBodyEmitter = new EventEmitter<body[]>();
 
-  public body: snakeBody[] = [];
-  public styles: snakeBodyStyles[] = [];
+  public body: body[] = [];
+  public styles: bodyStyle[] = [];
   public height: number;
   public width: number;
-  public timer: any;
+  public timer: number;
 
   constructor() { }
 
@@ -47,7 +49,8 @@ export class SnakeComponent implements OnInit {
           {
             'backgroundColor': 'red',
             'top': this.height * this.body[0].y + 'px',
-            'left': this.width * this.body[0].x + 'px'
+            'left': this.width * this.body[0].x + 'px',
+            'z-index': '1'
           },
         )
       }
@@ -82,12 +85,26 @@ export class SnakeComponent implements OnInit {
     }
     this.generateSnake();
     this.checkLoose();
+    if (this.body[0].x === this.foodBody.x && this.body[0].y === this.foodBody.y) {
+      this.body.push({
+        x: null,
+        y: null
+      });
+      this.snakeBodyEmitter.emit(this.body);
+    }
 
   }
 
   public checkLoose() {
-    if (this.body[0].x === 0 || this.body[0].x === 35 || this.body[0].y === 0 || this.body[0].y === 35) {
+    if (this.body[0].x === 0 || this.body[0].x === 34 || this.body[0].y === 0 || this.body[0].y === 34) {
       clearInterval(this.timer);
+      return;
+    }
+    for (let i = 1; i < this.body.length; i++) {
+      if (this.body[i].x === this.body[0].x && this.body[i].y === this.body[0].y) {
+        clearInterval(this.timer);
+        return;
+      }
     }
   }
 
