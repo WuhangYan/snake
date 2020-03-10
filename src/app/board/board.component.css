@@ -12,3 +12,10 @@
   background-color: rgb(240, 240, 240);
   border: 5px solid rgb(210, 210, 210);
 }
+
+.food{
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  position: absolute;
+}

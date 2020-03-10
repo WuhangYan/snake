@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EventManager } from '@angular/platform-browser';
+import { body, bodyStyle } from '../../model/snake-body.model';
 
 @Component({
   selector: 'app-board',
@@ -8,6 +9,9 @@ import { EventManager } from '@angular/platform-browser';
 })
 export class BoardComponent implements OnInit {
   public direction: string;
+  public foodBody: body;
+  public foodStyle: bodyStyle;
+
   constructor(
     private eventManager: EventManager
   ) { }
@@ -37,7 +41,20 @@ export class BoardComponent implements OnInit {
           }
           break;
       }
-    })
+    });
+    this.generateFood();
+  }
+
+  public generateFood() {
+    this.foodBody = {
+      x: Math.ceil(Math.random() * 32) + 1,
+      y: Math.ceil(Math.random() * 32) + 1
+    }
+    this.foodStyle = {
+      'backgroundColor': 'grey',
+      'top': 20 * this.foodBody.y + 'px',
+      'left': 20 * this.foodBody.x + 'px'
+    }
   }
 
 }

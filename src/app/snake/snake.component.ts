@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { snakeBody, snakeBodyStyles } from '../../model/snake-body.model';
+import { body, bodyStyle } from '../../model/snake-body.model';
 
 @Component({
   selector: 'app-snake',
@@ -9,11 +9,11 @@ import { snakeBody, snakeBodyStyles } from '../../model/snake-body.model';
 export class SnakeComponent implements OnInit {
   @Input() public direction: string;
 
-  public body: snakeBody[] = [];
-  public styles: snakeBodyStyles[] = [];
+  public body: body[] = [];
+  public styles: bodyStyle[] = [];
   public height: number;
   public width: number;
-  public timer: any;
+  public timer: number;
 
   constructor() { }
 
@@ -86,7 +86,7 @@ export class SnakeComponent implements OnInit {
   }
 
   public checkLoose() {
-    if (this.body[0].x === 0 || this.body[0].x === 35 || this.body[0].y === 0 || this.body[0].y === 35) {
+    if (this.body[0].x === 0 || this.body[0].x === 34 || this.body[0].y === 0 || this.body[0].y === 34) {
       clearInterval(this.timer);
     }
   }
