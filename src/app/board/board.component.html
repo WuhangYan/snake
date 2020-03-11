@@ -1,5 +1,5 @@
 <div class="game-board">
-  <app-snake [direction]="direction" [foodBody]="foodBody" (snakeBodyEmitter)="generateFood($body)">
+  <app-snake [direction]="direction" [foodBody]="foodBody" (snakeBodyEmitter)="generateFood($body)" (keyInputValidEmitter)="checkValidInput($value)">
   </app-snake>
   <div class="food" [ngStyle]="foodStyle"></div>
 </div>

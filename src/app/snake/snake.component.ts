@@ -10,6 +10,7 @@ export class SnakeComponent implements OnInit {
   @Input() public direction: string;
   @Input() public foodBody: body;
   @Output() public snakeBodyEmitter = new EventEmitter<body[]>();
+  @Output() public keyInputValidEmitter = new EventEmitter<boolean>();
 
   public body: body[] = [];
   public styles: bodyStyle[] = [];
@@ -67,6 +68,7 @@ export class SnakeComponent implements OnInit {
   }
 
   public move() {
+    this.keyInputValidEmitter.emit(true);
     for (let i = this.body.length - 1; i > 0; i--) {
       this.body[i].x = this.body[i - 1].x;
       this.body[i].y = this.body[i - 1].y;
