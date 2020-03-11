@@ -12,6 +12,7 @@ export class BoardComponent implements OnInit {
   public foodBody: body;
   public foodStyle: bodyStyle;
   public snakeBody: body[];
+  public keyInputValid: boolean = true;
 
   constructor(
     private eventManager: EventManager
@@ -34,28 +35,32 @@ export class BoardComponent implements OnInit {
       }
     ];
     this.eventManager.addGlobalEventListener('window', 'keydown', (e: KeyboardEvent) => {
-      switch (e.code) {
-        case 'ArrowLeft':
-          if (this.direction !== 'right') {
-            this.direction = 'left';
-          }
-          break;
-        case 'ArrowRight':
-          if (this.direction !== 'left') {
-            this.direction = 'right';
-          }
-          break;
-        case 'ArrowUp':
-          if (this.direction !== 'down') {
-            this.direction = 'up';
-          }
-          break;
-        case 'ArrowDown':
-          if (this.direction !== 'up') {
-            this.direction = 'down';
-          }
-          break;
+      if (this.keyInputValid) {
+        console.log(e.code)
+        switch (e.code) {
+          case 'ArrowLeft':
+            if (this.direction !== 'right') {
+              this.direction = 'left';
+            }
+            break;
+          case 'ArrowRight':
+            if (this.direction !== 'left') {
+              this.direction = 'right';
+            }
+            break;
+          case 'ArrowUp':
+            if (this.direction !== 'down') {
+              this.direction = 'up';
+            }
+            break;
+          case 'ArrowDown':
+            if (this.direction !== 'up') {
+              this.direction = 'down';
+            }
+            break;
+        }
       }
+      this.keyInputValid = false;
     });
     this.generateFood(this.snakeBody);
   }
@@ -82,6 +87,11 @@ export class BoardComponent implements OnInit {
       'top': 20 * this.foodBody.y + 'px',
       'left': 20 * this.foodBody.x + 'px'
     }
+  }
+
+  /* make one arrow key input valid for each snake move */
+  public checkValidInput(value) {
+    this.keyInputValid = true;
   }
 
 }
