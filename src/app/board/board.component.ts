@@ -13,6 +13,7 @@ export class BoardComponent implements OnInit {
   public foodStyle: bodyStyle;
   public snakeBody: body[];
   public keyInputValid: boolean = true;
+  public speedUp: boolean = false;
 
   constructor(
     private eventManager: EventManager
@@ -35,30 +36,40 @@ export class BoardComponent implements OnInit {
       }
     ];
     this.eventManager.addGlobalEventListener('window', 'keydown', (e: KeyboardEvent) => {
-      if (this.keyInputValid) {
-        console.log(e.code)
-        switch (e.code) {
-          case 'ArrowLeft':
-            if (this.direction !== 'right') {
-              this.direction = 'left';
-            }
-            break;
-          case 'ArrowRight':
-            if (this.direction !== 'left') {
-              this.direction = 'right';
-            }
-            break;
-          case 'ArrowUp':
-            if (this.direction !== 'down') {
-              this.direction = 'up';
-            }
-            break;
-          case 'ArrowDown':
-            if (this.direction !== 'up') {
-              this.direction = 'down';
-            }
-            break;
-        }
+
+      switch (e.code) {
+        case 'ArrowLeft':
+          if (this.direction !== 'right' && this.keyInputValid) {
+            this.direction = 'left';
+          }
+          if (this.direction === 'left' && !this.keyInputValid) {
+            this.speedUp = true;
+          }
+          break;
+        case 'ArrowRight':
+          if (this.direction !== 'left' && this.keyInputValid) {
+            this.direction = 'right';
+          }
+          if (this.direction === 'right' && !this.keyInputValid) {
+            this.speedUp = true;
+          }
+          break;
+        case 'ArrowUp':
+          if (this.direction !== 'down' && this.keyInputValid) {
+            this.direction = 'up';
+          }
+          if (this.direction === 'up' && !this.keyInputValid) {
+            this.speedUp = true;
+          }
+          break;
+        case 'ArrowDown':
+          if (this.direction !== 'up' && this.keyInputValid) {
+            this.direction = 'down';
+          }
+          if (this.direction === 'down' && !this.keyInputValid) {
+            this.speedUp = true;
+          }
+          break;
       }
       this.keyInputValid = false;
     });
@@ -92,6 +103,11 @@ export class BoardComponent implements OnInit {
   /* make one arrow key input valid for each snake move */
   public checkValidInput(value) {
     this.keyInputValid = true;
+  }
+
+  /* once speed up finished after double click, do a reset*/
+  public resetSpeedup(value) {
+    this.speedUp = value;
   }
 
 }
