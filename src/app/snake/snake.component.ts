@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { body, bodyStyle } from '../../model/snake-body.model';
 
 @Component({
@@ -9,8 +9,10 @@ import { body, bodyStyle } from '../../model/snake-body.model';
 export class SnakeComponent implements OnInit {
   @Input() public direction: string;
   @Input() public foodBody: body;
+  @Input() public speedUp: boolean;
   @Output() public snakeBodyEmitter = new EventEmitter<body[]>();
   @Output() public keyInputValidEmitter = new EventEmitter<boolean>();
+  @Output() public speedUpEmitter = new EventEmitter<boolean>();
 
   public body: body[] = [];
   public styles: bodyStyle[] = [];
@@ -38,8 +40,20 @@ export class SnakeComponent implements OnInit {
       }
     ];
     this.generateSnake();
-    this.timer = window.setInterval(() => { this.move() }, 500);
+    this.timer = window.setInterval(() => { this.move() }, 800);
   }
+
+  ngOnChanges(changes) {
+    if (changes.speedUp && changes.speedUp.currentValue === true) {
+      clearInterval(this.timer);
+      this.move();
+      this.timer = window.setInterval(() => {
+        this.move();
+        this.speedUpEmitter.emit(false);
+      }, 800);
+    }
+  }
+
 
   public generateSnake() {
     this.styles = [];
@@ -51,7 +65,7 @@ export class SnakeComponent implements OnInit {
             'backgroundColor': 'red',
             'top': this.height * this.body[0].y + 'px',
             'left': this.width * this.body[0].x + 'px',
-            'z-index': '1'
+            'zIndex': '1'
           },
         )
       }
