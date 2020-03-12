@@ -51,7 +51,7 @@ export class SnakeComponent implements OnInit {
             'backgroundColor': 'red',
             'top': this.height * this.body[0].y + 'px',
             'left': this.width * this.body[0].x + 'px',
-            'z-index': '1'
+            'zIndex': '1'
           },
         )
       }
